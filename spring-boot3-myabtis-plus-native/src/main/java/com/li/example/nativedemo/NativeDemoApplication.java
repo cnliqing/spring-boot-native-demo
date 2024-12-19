@@ -14,8 +14,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 
+import java.io.Serializable;
+
 @SpringBootApplication(proxyBeanMethods = false)
-public class NativeDemoApplication {
+public class NativeDemoApplication implements Serializable {
 
     public static void main(String[] args) {
         SpringApplication.run(NativeDemoApplication.class, args);
