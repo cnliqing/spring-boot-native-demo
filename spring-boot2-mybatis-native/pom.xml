@@ -34,6 +34,16 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.experimental</groupId>
             <artifactId>spring-native</artifactId>
             <version>${spring-native.version}</version>
@@ -43,36 +53,30 @@
             <artifactId>spring-native-configuration</artifactId>
             <version>${spring-native-configuration.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.native</groupId>
+            <artifactId>mybatis-spring-native-core</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.native</groupId>
+            <artifactId>mybatis-spring-native-extensions</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.experimental</groupId>
+            <artifactId>spring-aot</artifactId>
+            <version>${spring-native.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.experimental</groupId>
-                <artifactId>spring-aot-maven-plugin</artifactId>
-                <version>${spring-native.version}</version>
-                <configuration>
-                    <removeXmlSupport>false</removeXmlSupport>
-                    <removeSpelSupport>true</removeSpelSupport>
-                    <removeJmxSupport>false</removeJmxSupport>
-                    <removeYamlSupport>false</removeYamlSupport>
-                    <mainClass>com.li.example.nativedemo.NativeDemoApplication</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>generate</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- Spring Boot 2.3 发布后带来了新特性之一就是对构建镜像的便捷支持 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>2.6.13</version>
                 <configuration>
                     <mainClass>com.li.example.nativedemo.NativeDemoApplication</mainClass>
                     <image>
@@ -92,6 +96,26 @@
                     <execution>
                         <goals>
                             <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.experimental</groupId>
+                <artifactId>spring-aot-maven-plugin</artifactId>
+                <version>${spring-native.version}</version>
+                <configuration>
+                    <removeXmlSupport>false</removeXmlSupport>
+                    <removeSpelSupport>true</removeSpelSupport>
+                    <removeJmxSupport>false</removeJmxSupport>
+                    <removeYamlSupport>false</removeYamlSupport>
+                    <mainClass>com.li.example.nativedemo.NativeDemoApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <goals>
+                            <goal>generate</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -129,6 +153,9 @@
     <profiles>
         <profile>
             <id>native</id>
+            <properties>
+                <repackage.classifier>exec</repackage.classifier>
+            </properties>
             <build>
                 <plugins>
                     <plugin>

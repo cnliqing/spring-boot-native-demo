@@ -1,0 +1,1 @@
+INSERT INTO `messages` VALUES (1, 'Hello World!', 'text', 'admin', 'admin');
